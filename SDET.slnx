@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="../HalifaxSeleniumTests/ParaBankSeleniumTests.csproj" Id="eeeae3cc-7def-4e2e-ad1a-8b4a74e7600a" />
+  <Project Path="../ReqnrollProject/ReqnrollProject.csproj" Id="f9f190c4-125a-4da0-a106-6359ebd677ea" />
+  <Project Path="PlaywrightTests.csproj" />
+</Solution>
