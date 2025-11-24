@@ -9,19 +9,20 @@ namespace PlaywrightTests.ReqnrollProject.StepDefinitions
         [Given("User Details")]
         public void GivenUserDetails(DataTable dataTable)
         {
+            var userDetails = dataTable.CreateInstance<ParaBankUserDetails>();
             
         }
 
         [When("User Details Entered")]
         public void WhenUserDetailsEntered()
         {
-            throw new PendingStepException();
+            
         }
 
         [Then("Create New user")]
         public void ThenCreateNewUser()
         {
-            throw new PendingStepException();
+            
         }
     }
 }
