@@ -1,5 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Edge;
+using OpenQA.Selenium.IE;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,28 +14,28 @@ namespace ParaBankSeleniumTests
 
         public string Password { get; set; }
 
-        public ChromeDriver ChrDriver { get; set; }
+        public EdgeDriver brDriver { get; set; }
 
-        public LoginPage(ChromeDriver driver, string username, string password)
+        public LoginPage(EdgeDriver driver, string username, string password)
         {
             Username = username;
             Password = password;
-            ChrDriver = driver;
+            brDriver = driver;
         }
 
         public IWebElement login()
         {
-            var username = ChrDriver.FindElement(By.Name("username"));
-            var pwd = ChrDriver.FindElement(By.Name("password"));
+            var username = brDriver.FindElement(By.Name("username"));
+            var pwd = brDriver.FindElement(By.Name("password"));
 
             username.Clear();
             username.SendKeys(Username);
             pwd.Clear();
             pwd.SendKeys(Password);
             
-            ChrDriver.FindElement(By.XPath("//input[@value='Log In']")).Click();
+            brDriver.FindElement(By.XPath("//input[@value='Log In']")).Click();
 
-            return ChrDriver.FindElement(By.Id("overviewAccountsApp"));            
+            return brDriver.FindElement(By.Id("overviewAccountsApp"));            
         }
 
     }

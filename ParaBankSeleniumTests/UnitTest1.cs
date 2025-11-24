@@ -1,17 +1,20 @@
 ﻿using FluentAssertions;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Edge;
+using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Support.UI;
 
 namespace ParaBankSeleniumTests
 {
     public class Tests
     {
-        ChromeDriver chromeDriver;
+        EdgeDriver browserDriver;
 
         [SetUp]
         public void Setup()
         {
-            chromeDriver = new Driver().TestChromeDriver;           
+            browserDriver = new Driver().TestBrowserDriver;           
         }
 
         [Test]
@@ -26,11 +29,11 @@ namespace ParaBankSeleniumTests
             customerDetails.ZipCode = "TestZipCode";
             customerDetails.Phone = "1234567891";
             customerDetails.SSN = "123456";
-            customerDetails.Username = "TestUsername4";
+            customerDetails.Username = "TestUsername";
             customerDetails.Password = "TestPassword";
             customerDetails.Confirm = "TestPassword";
 
-            CustomerPage cp = new CustomerPage(chromeDriver);
+            CustomerPage cp = new CustomerPage(browserDriver);
             var registered = cp.Register(customerDetails);
             registered.Should().BeTrue();
         }
@@ -38,26 +41,34 @@ namespace ParaBankSeleniumTests
         [Test]
         public void OpenNewAccountTest()
         {
-            ParaBankLogin("TestUsername4", "TestPassword");
-            chromeDriver.FindElement(By.XPath("//a [@href='openaccount.htm']")).Click();
-            chromeDriver.FindElement(By.XPath("//select[@id='type'] / option[text()='SAVINGS'] ")).Click();
-            chromeDriver.FindElement(By.XPath("//select[@id='fromAccountId'] / option[text()='15342'] ")).Click();
-            chromeDriver.FindElement(By.XPath("//input[@value='Open New Account']")).Click();
+            ParaBankLogin("TestUsername", "TestPassword");
+            browserDriver.FindElement(By.XPath("//a [@href='openaccount.htm']")).Click();
+            browserDriver.FindElement(By.XPath("//select[@id='type'] / option[text()='SAVINGS'] ")).Click();
 
-            var accountOpened= chromeDriver.FindElement(By.Id("openAccountResult")).Text.Contains("Account Opened!");
+            var fromAccount = browserDriver.FindElement(By.XPath("//select[@id='fromAccountId'] "));
+            var fromAccountSelect = new SelectElement(fromAccount);
+
+            Thread.Sleep(1000);
+            fromAccountSelect.SelectedOption.Click();
+
+            browserDriver.FindElement(By.XPath("//input[@value='Open New Account']")).Click();
+
+            Thread.Sleep(2000);
+
+            var accountOpened= browserDriver.FindElement(By.Id("openAccountResult")).Text.Contains("Account Opened!");
             accountOpened.Should().BeTrue();
         }
 
         [Test]
         public void LoginTest()
         {
-            IWebElement login = ParaBankLogin("john", "password");
+            IWebElement login = ParaBankLogin("TestUsername", "TestPassword");
             login.Should().NotBeNull();
         }
 
         private IWebElement ParaBankLogin(string name, string pwd)
         {
-            var loginPage = new LoginPage(chromeDriver, name, pwd);
+            var loginPage = new LoginPage(browserDriver, name, pwd);
             var login = loginPage.login();
             return login;
         }
@@ -65,7 +76,7 @@ namespace ParaBankSeleniumTests
         [TearDown]
         public void TearDown()
         {
-            chromeDriver.Quit();
+            browserDriver.Quit();
         }
     }
 }

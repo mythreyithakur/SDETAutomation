@@ -1,4 +1,7 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Edge;
+using OpenQA.Selenium.IE;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,22 +10,22 @@ namespace ParaBankSeleniumTests
 {
     public class Driver
     {
-        private ChromeDriver _webDriver;
-
-        public ChromeDriver TestChromeDriver {
+       
+        public EdgeDriver TestBrowserDriver {
             get;          
             set ; 
         }
+       
+
         public Driver()
         {
-            ChromeOptions options = new ChromeOptions();
-            options.AddArguments("--start-maximized"); // Start maximized
 
-            ChromeDriver _webDriver = new ChromeDriver();            
+            //ChromeDriver _webDriver = new ChromeDriver();
+            EdgeDriver _webDriver = new EdgeDriver();
             _webDriver.Navigate().GoToUrl("https://parabank.parasoft.com/");
             _webDriver.Manage().Window.Maximize();
 
-            TestChromeDriver = _webDriver;
+            TestBrowserDriver = _webDriver;
         }
 
         
